@@ -1,12 +1,15 @@
 package sintesis.models;
 
 import java.util.Date;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,58 +21,66 @@ public class Usuari // Definició dels usuaris en el sistema.
 
 	}
 
-	public Usuari(int id, String nom, String cognom, String correu, String telefon, String adreça, String password,
-			String rol, Date dataDeCreacio) {
+	public Usuari(int id, String username, String correu, String password, List<Missatge> missatgesEnviats,
+			List<Missatge> missatgesRebuts) {
 		super();
 		this.id = id;
-		this.nom = nom;
-		this.cognom = cognom;
+		this.username = username;
 		this.correu = correu;
-		this.telefon = telefon;
-		this.adreça = adreça;
 		this.password = password;
-		this.rol = rol;
-		this.dataDeCreacio = dataDeCreacio;
+		this.missatgesEnviats = missatgesEnviats;
+		this.missatgesRebuts = missatgesRebuts;
 	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String nom;
-	private String cognom;
+	@Column(unique = true, nullable = false)
+	private String username;
 
 	@Column(unique = true, nullable = false)
 	private String correu;
 
-	private String telefon;
-	private String adreça;
+	@Column(unique = true, nullable = false)
 	private String password;
-	private String rol;
-	private Date dataDeCreacio;
+
+	@OneToMany(mappedBy = "remitent", cascade = CascadeType.ALL)
+	private List<Missatge> missatgesEnviats;
+
+	@OneToMany(mappedBy = "receptor", cascade = CascadeType.ALL)
+	private List<Missatge> missatgesRebuts;
 
 	public int getId() {
 		return id;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<Missatge> getMissatgesEnviats() {
+		return missatgesEnviats;
+	}
+
+	public void setMissatgesEnviats(List<Missatge> missatgesEnviats) {
+		this.missatgesEnviats = missatgesEnviats;
+	}
+
+	public List<Missatge> getMissatgesRebuts() {
+		return missatgesRebuts;
+	}
+
+	public void setMissatgesRebuts(List<Missatge> missatgesRebuts) {
+		this.missatgesRebuts = missatgesRebuts;
+	}
+
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getCognom() {
-		return cognom;
-	}
-
-	public void setCognom(String cognom) {
-		this.cognom = cognom;
 	}
 
 	public String getCorreu() {
@@ -80,44 +91,12 @@ public class Usuari // Definició dels usuaris en el sistema.
 		this.correu = correu;
 	}
 
-	public String getTelefon() {
-		return telefon;
-	}
-
-	public void setTelefon(String telefon) {
-		this.telefon = telefon;
-	}
-
-	public String getAdreça() {
-		return adreça;
-	}
-
-	public void setAdreça(String adreça) {
-		this.adreça = adreça;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getRol() {
-		return rol;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-
-	public Date getDataDeCreacio() {
-		return dataDeCreacio;
-	}
-
-	public void setDataDeCreacio(Date dataDeCreacio) {
-		this.dataDeCreacio = dataDeCreacio;
 	}
 
 }
