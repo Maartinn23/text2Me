@@ -21,15 +21,19 @@ public class Usuari // Definició dels usuaris en el sistema.
 
 	}
 
-	public Usuari(int id, String username, String correu, String password, List<Missatge> missatgesEnviats,
-			List<Missatge> missatgesRebuts) {
+	public Usuari(int id, String username, String correu, String password, boolean estatActivitat,
+			List<Missatge> missatgesEnviats, List<Missatge> missatgesRebuts, List<Chat> chatsIniciats,
+			List<Chat> chatsRebuts) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.correu = correu;
 		this.password = password;
+		this.estatActivitat = estatActivitat;
 		this.missatgesEnviats = missatgesEnviats;
 		this.missatgesRebuts = missatgesRebuts;
+		this.chatsIniciats = chatsIniciats;
+		this.chatsRebuts = chatsRebuts;
 	}
 
 	@Id
@@ -45,14 +49,26 @@ public class Usuari // Definició dels usuaris en el sistema.
 	@Column(unique = true, nullable = false)
 	private String password;
 
+	private boolean estatActivitat = true;
+
 	@OneToMany(mappedBy = "remitent", cascade = CascadeType.ALL)
 	private List<Missatge> missatgesEnviats;
 
 	@OneToMany(mappedBy = "receptor", cascade = CascadeType.ALL)
 	private List<Missatge> missatgesRebuts;
 
+	@OneToMany(mappedBy = "usuari1", cascade = CascadeType.ALL)
+	private List<Chat> chatsIniciats;
+
+	@OneToMany(mappedBy = "usuari2", cascade = CascadeType.ALL)
+	private List<Chat> chatsRebuts;
+
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -61,6 +77,30 @@ public class Usuari // Definició dels usuaris en el sistema.
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getCorreu() {
+		return correu;
+	}
+
+	public void setCorreu(String correu) {
+		this.correu = correu;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isEstatActivitat() {
+		return estatActivitat;
+	}
+
+	public void setEstatActivitat(boolean estatActivitat) {
+		this.estatActivitat = estatActivitat;
 	}
 
 	public List<Missatge> getMissatgesEnviats() {
@@ -79,24 +119,20 @@ public class Usuari // Definició dels usuaris en el sistema.
 		this.missatgesRebuts = missatgesRebuts;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public List<Chat> getChatsIniciats() {
+		return chatsIniciats;
 	}
 
-	public String getCorreu() {
-		return correu;
+	public void setChatsIniciats(List<Chat> chatsIniciats) {
+		this.chatsIniciats = chatsIniciats;
 	}
 
-	public void setCorreu(String correu) {
-		this.correu = correu;
+	public List<Chat> getChatsRebuts() {
+		return chatsRebuts;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setChatsRebuts(List<Chat> chatsRebuts) {
+		this.chatsRebuts = chatsRebuts;
 	}
 
 }
